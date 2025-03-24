@@ -1,18 +1,18 @@
 def solution(answers):
-    pattern1 = [1, 2, 3, 4, 5] #5
-    pattern2 = [2, 1, 2, 3, 2, 4, 2, 5] #8
-    pattern3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5] #10
+    su1 = [1, 2, 3, 4, 5] #5
+    su2 = [2, 1, 2, 3, 2, 4, 2, 5] #8
+    su3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5] #10
 
     # 각 수포자의 점수판
     score = [0, 0, 0]
 
     
     for i, a in enumerate(answers):
-        if a == pattern1[i % len(pattern1)]:
+        if a == su1[i % len(su1)]:
             score[0] += 1
-        if a == pattern2[i % len(pattern2)]:
+        if a == su2[i % len(su2)]:
             score[1] += 1
-        if a == pattern3[i % len(pattern3)]:
+        if a == su3[i % len(su3)]:
             score[2] += 1
 
     # 최고 점수 
