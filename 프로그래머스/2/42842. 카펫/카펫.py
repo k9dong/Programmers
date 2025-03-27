@@ -1,6 +1,10 @@
 def solution(brown, yellow):
+    #전체 넓이
     s = brown + yellow
+    
     answer = [0] *2
+    
+    #가로를 x로
     for x in range(3, s):
         
         # 나머지가 0이 아닐 경우 다음 넘어감
