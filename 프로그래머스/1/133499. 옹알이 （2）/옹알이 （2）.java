@@ -33,7 +33,7 @@ class Solution {
                         // 예: "wooaya".substring(3) → "aya"
 
                         matched = true; // 발음 가능 조각 찾았음
-                        break; // 더 검사할 필요 없으므로 종료
+                        continue; // 더 검사할 필요 없으므로 종료
                     }
                 }
 
