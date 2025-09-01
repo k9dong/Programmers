@@ -1,53 +1,56 @@
 import java.util.*;
-
 class Solution {
     public int solution(String[] friends, String[] gifts) {
-        // 선물 주고받은 기록
-        Map<String, Map<String, Integer>> giftRecords = new HashMap<>();
-        // 선물 지수 = 준 선물 - 받은 선물
-        Map<String, Integer> giftScore = new HashMap<>();
-        // 다음 달 받을 선물 수
-        Map<String, Integer> nextMonthGifts = new HashMap<>();
-
-        // 초기화
-        for (String friend : friends) {
-            giftRecords.put(friend, new HashMap<>());
-            giftScore.put(friend, 0);
-            nextMonthGifts.put(friend, 0);
+        
+        int answer = 0;
+        // 선물준 사람 <누구에게, 몇개줬는지>
+        Map<String, Map<String, Integer>> record = new HashMap<>();
+        
+        // 선물지수
+        Map<String, Integer> point = new HashMap<>();
+        
+        // 다음달 받을 선물
+        Map<String, Integer> count = new HashMap<>();
+        
+        for (String f : friends){
+            record.put(f,new HashMap<>());
+            point.put(f,0);
+            count.put(f,0);
         }
-
-        // 선물 주고받기 기록 및 지수 계산
-        for (String gift : gifts) {
-            String[] parts = gift.split(" ");
+        
+        for (String g : gifts){
+            String [] parts = g.split(" ");
             String giver = parts[0];
             String receiver = parts[1];
-
-            // 기록 저장
-            Map<String, Integer> giverMap = giftRecords.get(giver);
-            giverMap.put(receiver, giverMap.getOrDefault(receiver, 0) + 1);
-
-            // 선물 지수 계산
-            giftScore.put(giver, giftScore.get(giver) + 1);
-            giftScore.put(receiver, giftScore.get(receiver) - 1);
+            
+            Map<String, Integer> map = record.get(giver);
+            map.put(receiver, map.getOrDefault(receiver,0)+1);
+            
+            point.put(giver,point.get(giver)+1);
+            point.put(receiver, point.get(receiver)-1);
         }
-
-        // 다음 달 선물 받을 횟수 계산
-        for (String giver : friends) {
-            for (String receiver : friends) {
-                if (giver.equals(receiver)) continue;
-
-                int given = giftRecords.get(giver).getOrDefault(receiver, 0);
-                int received = giftRecords.get(receiver).getOrDefault(giver, 0);
-
-                if (given > received) {
-                    nextMonthGifts.put(giver, nextMonthGifts.get(giver) + 1);
-                } else if (given == received && giftScore.get(giver) > giftScore.get(receiver)) {
-                    nextMonthGifts.put(giver, nextMonthGifts.get(giver) + 1);
+        for(String g : friends){
+            for (String r : friends){
+                if (g.equals(r)) continue;
+                
+                int gCount = record.get(g).getOrDefault(r,0); //g가 r에게 준 선물 수
+                int rCount = record.get(r).getOrDefault(g,0); //r이 g에게 준 선물 수
+                
+                if(gCount > rCount){
+                    count.put(g, count.get(g)+1);
                 }
+                else if(gCount == rCount && point.get(g) > point.get(r)){
+                    count.put(g, count.get(g)+1);
+                }
+                
             }
         }
+        for (int k : count.values()){
+            answer = Math.max(answer, k);
+        }
 
-        // 가장 많이 받은 선물 수
-        return Collections.max(nextMonthGifts.values());
+        
+        
+        return answer;
     }
 }
